@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Personalized Course Recommender</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+        .container {
+            width: 60%;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-top: 50px;
+        }
+        h1 {
+            text-align: center;
+        }
+        form {
+            text-align: center;
+        }
+        input[type="text"] {
+            width: 80%;
+            padding: 10px;
+            margin: 10px 0;
+        }
+        input[type="submit"] {
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .results {
+            margin-top: 20px;
+        }
+        .course {
+            padding: 10px;
+            background-color: #e9ecef;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        .rating {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Personalized Course Recommender</h1>
+        <form method="POST">
+            <input type="text" name="user_input" placeholder="Enter a course topic or keyword" required>
+            <input type="submit" value="Find Courses">
+        </form>
+        {% if user_input %}
+            <div class="results">
+                <h2>Recommended courses for "{{ user_input }}":</h2>
+                {% for course in recommended_courses %}
+                    <div class="course">
+                        {{ course }}
+                        <div class="rating">
+                            <form action="{{ url_for('rate') }}" method="POST">
+                                <input type="hidden" name="course_title" value="{{ course }}">
+                                <label for="rating">Rate this course:</label>
+                                <select name="rating" id="rating">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                </select>
+                                <input type="submit" value="Submit">
+                            </form>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>
